@@ -1,0 +1,25 @@
+# Web frameworks
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+
+# LangChain ecosystem (COMPATIBLE SET)
+langchain==0.2.14
+langchain-core==0.2.32
+langchain-community==0.2.12
+langchain-google-genai==1.0.10
+langchain-groq==0.1.5
+
+# Vector store
+pinecone-client==3.2.2
+
+# PDF parsing
+pypdf==4.2.0
+
+# Env variables
+python-dotenv==1.0.1
+
+# Utilities
+pydantic==2.7.1
+requests==2.32.3
+tqdm==4.66.4
