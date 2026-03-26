@@ -3,15 +3,14 @@ fastapi==0.110.0
 uvicorn[standard]==0.29.0
 python-multipart==0.0.9
 
-# LangChain ecosystem (COMPATIBLE SET)
+# LangChain ecosystem (LET pip RESOLVE)
 langchain==0.2.14
-langchain-core==0.2.32
 langchain-community==0.2.12
 langchain-google-genai==1.0.10
 langchain-groq==0.1.5
 
 # Vector store
-pinecone-client==3.2.2
+pinecone==5.0.1
 
 # PDF parsing
 pypdf==4.2.0
