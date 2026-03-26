@@ -5,7 +5,6 @@ from modules.query_handlers import query_chain
 from langchain.schema import Document
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from pinecone import Pinecone
-from pydantic import PrivateAttr
 from typing import List
 from logger import logger
 import os
@@ -21,14 +20,13 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 router = APIRouter()
 
 class SimpleRetriever(BaseRetriever):
-    _docs: List[Document] = PrivateAttr()
+    docs: List[Document] = []  
 
-    def __init__(self, documents: List[Document]):
-        super().__init__()
-        self._docs = documents
+    class Config:
+        arbitrary_types_allowed = True
 
     def _get_relevant_documents(self, query: str) -> List[Document]:
-        return self._docs
+        return self.docs
 
 @router.post("/ask/")
 async def ask_question(question: str = Form(...)):
@@ -53,8 +51,8 @@ async def ask_question(question: str = Form(...)):
             ) for match in res["matches"]
         ]
 
-        retriever = SimpleRetriever(docs)
-        chain = get_llm_chain(retriever=retriever)  # ← use retriever, not vectorstore
+        retriever = SimpleRetriever(docs=docs)  
+        chain = get_llm_chain(retriever=retriever)
         result = query_chain(chain, question)
         logger.info("Query successful")
         return result
@@ -62,4 +60,3 @@ async def ask_question(question: str = Form(...)):
     except Exception as e:
         logger.exception("Error processing question")
         return JSONResponse(status_code=500, content={"error": str(e)})
-
